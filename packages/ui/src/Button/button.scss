@@ -1,0 +1,10 @@
+.button {
+  background-color: tomato;
+  border-radius: 5px;
+  padding: 1em 3em;
+  transition: scale 0.2s;
+
+  &:hover {
+    transform: scale(1.5);
+  }
+}
