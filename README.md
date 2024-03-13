@@ -11,7 +11,7 @@ This is a demo of several apps in a monorepo with a shared UI library, TS config
 
 ## ...wtf?
 
-The repo contains two main apps, `teacher-dashboard` built with Next's pages router, and `catalogue` built with Next's newer app router.
+The repo contains two main apps, `teacher-dashboard` built with Next's pages router, and `catalogue` built with Next's newer app router. Each app runs on its own port locally.
 
 Both apps depend on a `<Button />` component defined in `packages/ui`, built with Sass and exported as a TypeScript module.
 
@@ -42,3 +42,19 @@ import { Button } from "@repo/ui";
 What else do you need? :)
 
 Anything shared by two or more apps can be added to `packages`, not just UI and config. For example, an API client to fetch from defined endpoints, with type safety on the response data!
+
+## Sick. Can we deploy this?
+
+Deployment on Vercel is easy. Turborepo is a Vercel product and it works with the platform fairly seamlessly.
+
+In general, Turborepo is only a build system and doesn't care about deployment. Anything that can run the apps (Next.js in this case) can run it from Turborepo. The CI/CD pipeline would be configured to run a build step for a single app and its dependencies, e.g:
+
+```bash
+$ yarn turbo build --filter=teacher-dashboard
+```
+
+...would build only the `teacher-dashboard` app and its internal dependencies (`ui`, `typescript-config`...).
+
+The Turborepo docs contain recipes for [GitHub Actions](https://turbo.build/repo/docs/ci/github-actions) and other CI/CD systems. AWS Amplify has [support for monorepos](https://storybook.js.org/).
+
+But really, some insight from our infrastructure homies is needed.
